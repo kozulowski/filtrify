@@ -34,6 +34,7 @@
 		this._match = [];
 		this._mismatch = [];
 		this._z = 9999;
+		this._any = false;
 
 		this._bind = function ( fn, me ) { 
 			return function () { 
@@ -432,8 +433,9 @@
 						c = c + 1;
 					};
 				};
+				
 
-				if ( !this._query[f].length  || c >= this._query[f].length ) {
+				if ( !this._query[f].length  || (!this._any ? c >= this._query[f].length : c > 0) ) {
 					// match!
 				} else { 
 					m = false; 
@@ -524,8 +526,9 @@
         };
     };
 
-	Filtrify.prototype.trigger = function ( query ) {
+	Filtrify.prototype.trigger = function ( query, any ) {
 		var f;
+		this._any = any || false;
 
 		for ( f in this._fields ) {
 			this.clearSearch( f );
